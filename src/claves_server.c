@@ -19,7 +19,7 @@ init_1_svc(int *result, struct svc_req *rqstp)
 }
 
 bool_t
-set_value_1_svc(int key, char *value1, int N_value2, V_value2 value2, int *result,  struct svc_req *rqstp)
+set_value_1_svc(struct params param, int *result,  struct svc_req *rqstp)
 {
 	bool_t retval;
 
@@ -31,7 +31,7 @@ set_value_1_svc(int key, char *value1, int N_value2, V_value2 value2, int *resul
 }
 
 bool_t
-get_value_1_svc(int key, char *value1, int N_value2, V_value2 value2, int *result,  struct svc_req *rqstp)
+get_value_1_svc(struct params param, int *result,  struct svc_req *rqstp)
 {
 	bool_t retval;
 
@@ -43,7 +43,7 @@ get_value_1_svc(int key, char *value1, int N_value2, V_value2 value2, int *resul
 }
 
 bool_t
-modify_value_1_svc(int key, char *value1, int N_value2, V_value2 value2, int *result,  struct svc_req *rqstp)
+modify_value_1_svc(struct params param, int *result,  struct svc_req *rqstp)
 {
 	bool_t retval;
 
@@ -55,7 +55,7 @@ modify_value_1_svc(int key, char *value1, int N_value2, V_value2 value2, int *re
 }
 
 bool_t
-delete_key_1_svc(int key, int *result,  struct svc_req *rqstp)
+delete_key_1_svc(struct params param, int *result,  struct svc_req *rqstp)
 {
 	bool_t retval;
 
@@ -67,7 +67,7 @@ delete_key_1_svc(int key, int *result,  struct svc_req *rqstp)
 }
 
 bool_t
-exist_1_svc(int key, int *result,  struct svc_req *rqstp)
+exist_1_svc(struct params param, int *result,  struct svc_req *rqstp)
 {
 	bool_t retval;
 

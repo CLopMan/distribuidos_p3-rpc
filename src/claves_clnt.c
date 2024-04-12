@@ -19,58 +19,46 @@ init_1(int *clnt_res, CLIENT *clnt)
 }
 
 enum clnt_stat 
-set_value_1(int key, char *value1, int N_value2, V_value2 value2, int *clnt_res,  CLIENT *clnt)
+set_value_1(struct params param, int *clnt_res,  CLIENT *clnt)
 {
-	set_value_1_argument arg;
-	arg.key = key;
-	arg.value1 = value1;
-	arg.N_value2 = N_value2;
-	arg.value2 = value2;
-	return (clnt_call (clnt, set_value, (xdrproc_t) xdr_set_value_1_argument, (caddr_t) &arg,
+	return (clnt_call(clnt, set_value,
+		(xdrproc_t) xdr_params, (caddr_t) &param,
 		(xdrproc_t) xdr_int, (caddr_t) clnt_res,
 		TIMEOUT));
 }
 
 enum clnt_stat 
-get_value_1(int key, char *value1, int N_value2, V_value2 value2, int *clnt_res,  CLIENT *clnt)
+get_value_1(struct params param, int *clnt_res,  CLIENT *clnt)
 {
-	get_value_1_argument arg;
-	arg.key = key;
-	arg.value1 = value1;
-	arg.N_value2 = N_value2;
-	arg.value2 = value2;
-	return (clnt_call (clnt, get_value, (xdrproc_t) xdr_get_value_1_argument, (caddr_t) &arg,
+	return (clnt_call(clnt, get_value,
+		(xdrproc_t) xdr_params, (caddr_t) &param,
 		(xdrproc_t) xdr_int, (caddr_t) clnt_res,
 		TIMEOUT));
 }
 
 enum clnt_stat 
-modify_value_1(int key, char *value1, int N_value2, V_value2 value2, int *clnt_res,  CLIENT *clnt)
+modify_value_1(struct params param, int *clnt_res,  CLIENT *clnt)
 {
-	modify_value_1_argument arg;
-	arg.key = key;
-	arg.value1 = value1;
-	arg.N_value2 = N_value2;
-	arg.value2 = value2;
-	return (clnt_call (clnt, modify_value, (xdrproc_t) xdr_modify_value_1_argument, (caddr_t) &arg,
+	return (clnt_call(clnt, modify_value,
+		(xdrproc_t) xdr_params, (caddr_t) &param,
 		(xdrproc_t) xdr_int, (caddr_t) clnt_res,
 		TIMEOUT));
 }
 
 enum clnt_stat 
-delete_key_1(int key, int *clnt_res,  CLIENT *clnt)
+delete_key_1(struct params param, int *clnt_res,  CLIENT *clnt)
 {
 	return (clnt_call(clnt, delete_key,
-		(xdrproc_t) xdr_int, (caddr_t) &key,
+		(xdrproc_t) xdr_params, (caddr_t) &param,
 		(xdrproc_t) xdr_int, (caddr_t) clnt_res,
 		TIMEOUT));
 }
 
 enum clnt_stat 
-exist_1(int key, int *clnt_res,  CLIENT *clnt)
+exist_1(struct params param, int *clnt_res,  CLIENT *clnt)
 {
 	return (clnt_call(clnt, exist,
-		(xdrproc_t) xdr_int, (caddr_t) &key,
+		(xdrproc_t) xdr_params, (caddr_t) &param,
 		(xdrproc_t) xdr_int, (caddr_t) clnt_res,
 		TIMEOUT));
 }
