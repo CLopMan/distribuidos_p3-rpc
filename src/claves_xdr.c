@@ -3,7 +3,7 @@
  * It was generated using rpcgen.
  */
 
-#include "claves.h"
+#include "claves_rpc.h"
 
 bool_t
 xdr_params (XDR *xdrs, params *objp)

@@ -12,7 +12,7 @@ SOURCES_SVC.c =
 SOURCES_SVC.h = 
 SOURCES.x = claves.x
 
-TARGETS_SVC.c = claves_svc.c claves_server.c claves_xdr.c 
+TARGETS_SVC.c = claves_svc.c claves_server.c claves_xdr.c imp_clave.c
 TARGETS_CLNT.c = claves_clnt.c claves_client.c claves_xdr.c 
 
 OBJECTS_CLNT = $(SOURCES_CLNT.c:%.c=%.o) $(TARGETS_CLNT.c:%.c=%.o)
@@ -21,7 +21,7 @@ OBJECTS_SVC = $(SOURCES_SVC.c:%.c=%.o) $(TARGETS_SVC.c:%.c=%.o)
 
 CPPFLAGS += -D_REENTRANT
 CFLAGS += -g -I/usr/include/tirpc -I/usr/include/ntirpc/ # for ubuntu or fedora usr
-LDLIBS += -lnsl -lpthread 
+LDLIBS += -lnsl -lpthread -ltirpc
  RPCGENFLAGS = 
 
 # Targets 
@@ -40,6 +40,7 @@ $(CLIENT) : $(OBJECTS_CLNT)
 
 $(SERVER) : $(OBJECTS_SVC) 
 	$(LINK.c) -o $(SERVER) $(OBJECTS_SVC) $(LDLIBS)
+
 
  clean:
 	 $(RM) core  $(OBJECTS_CLNT) $(OBJECTS_SVC) $(CLIENT) $(SERVER)

@@ -4,7 +4,7 @@
  * as a guideline for developing your own functions.
  */
 
-#include "claves.h"
+#include "claves_rpc.h"
 
 
 void

@@ -3,7 +3,7 @@
  * It was generated using rpcgen.
  */
 
-#include "claves.h"
+#include "claves_rpc.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <rpc/pmap_clnt.h>
@@ -11,45 +11,73 @@
 #include <memory.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
+#include <pthread.h>
+
 
 #ifndef SIG_PF
 #define SIG_PF void(*)(int)
 #endif
 
+pthread_mutex_t m;
+
+
 int
 _init_rpc_1 (void  *argp, void *result, struct svc_req *rqstp)
 {
+	pthread_mutex_lock(&m);
 	return (init_rpc_1_svc(result, rqstp));
+	pthread_mutex_unlock(&m);
+
 }
 
 int
 _set_value_rpc_1 (struct params  *argp, void *result, struct svc_req *rqstp)
 {
+	pthread_mutex_lock(&m);
+	
 	return (set_value_rpc_1_svc(*argp, result, rqstp));
+	pthread_mutex_unlock(&m);
+
 }
 
 int
 _get_value_rpc_1 (struct params  *argp, void *result, struct svc_req *rqstp)
 {
+	pthread_mutex_lock(&m);
+
 	return (get_value_rpc_1_svc(*argp, result, rqstp));
+	pthread_mutex_unlock(&m);
+
 }
 
 int
 _modify_value_rpc_1 (struct params  *argp, void *result, struct svc_req *rqstp)
 {
+	pthread_mutex_lock(&m);
+
 	return (modify_value_rpc_1_svc(*argp, result, rqstp));
+	pthread_mutex_unlock(&m);
+
 }
 
 int
 _delete_key_rpc_1 (struct params  *argp, void *result, struct svc_req *rqstp)
 {
+	pthread_mutex_lock(&m);
+
 	return (delete_key_rpc_1_svc(*argp, result, rqstp));
+	pthread_mutex_unlock(&m);
+
 }
 
 int
 _exist_rpc_1 (struct params  *argp, void *result, struct svc_req *rqstp)
 {
+	pthread_mutex_lock(&m);
+
 	return (exist_rpc_1_svc(*argp, result, rqstp));
+	pthread_mutex_unlock(&m);
+
 }
 
 static void
@@ -138,9 +166,11 @@ claves_1(struct svc_req *rqstp, register SVCXPRT *transp)
 	return;
 }
 
+
 int
 main (int argc, char **argv)
 {
+	pthread_mutex_init(&m, NULL);
 	register SVCXPRT *transp;
 
 	pmap_unset (CLAVES, CLAVESVER);
@@ -167,6 +197,7 @@ main (int argc, char **argv)
 
 	svc_run ();
 	fprintf (stderr, "%s", "svc_run returned");
+	pthread_mutex_destroy(&m);
 	exit (1);
 	/* NOTREACHED */
 }

@@ -1,6 +1,7 @@
-#ifndef CLAVES_H
+#ifndef IMP_H
 
-#define CLAVES_H
+#define IMP_H
+
 
 /**
  * Inicializa el servicio borrando todos los datos anteriores
@@ -65,5 +66,6 @@ int delete_key(int key);
  * @return 1 en caso de que exista, 0 en caso contrario; -1 en caso de error
 */
 int exist(int key); 
+
 
 #endif

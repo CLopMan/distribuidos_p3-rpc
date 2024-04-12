@@ -4,16 +4,20 @@
  * as a guideline for developing your own functions.
  */
 
-#include "claves.h"
+#include "claves_rpc.h"
+#include "imp_clave.h"
+
 
 bool_t
 init_rpc_1_svc(int *result, struct svc_req *rqstp)
 {
-	bool_t retval;
+	bool_t retval = 1;
 
 	/*
+
 	 * insert server code here
 	 */
+	*result = init(); 
 
 	return retval;
 }
@@ -21,11 +25,12 @@ init_rpc_1_svc(int *result, struct svc_req *rqstp)
 bool_t
 set_value_rpc_1_svc(struct params param, int *result,  struct svc_req *rqstp)
 {
-	bool_t retval;
+	bool_t retval = 1;
 
 	/*
 	 * insert server code here
 	 */
+	*result = set_value(param.key, param.value1,  param.N_value2, param.value2);
 
 	return retval;
 }
@@ -33,11 +38,12 @@ set_value_rpc_1_svc(struct params param, int *result,  struct svc_req *rqstp)
 bool_t
 get_value_rpc_1_svc(struct params param, int *result,  struct svc_req *rqstp)
 {
-	bool_t retval;
+	bool_t retval = 1;
 
 	/*
 	 * insert server code here
 	 */
+	*result = get_value(param.key, param.value1, &param.N_value2, param.value2);
 
 	return retval;
 }
@@ -45,11 +51,12 @@ get_value_rpc_1_svc(struct params param, int *result,  struct svc_req *rqstp)
 bool_t
 modify_value_rpc_1_svc(struct params param, int *result,  struct svc_req *rqstp)
 {
-	bool_t retval;
+	bool_t retval = 1;
 
 	/*
 	 * insert server code here
 	 */
+	*result = modify_value(param.key, param.value1, param.N_value2, param.value2);
 
 	return retval;
 }
@@ -57,11 +64,13 @@ modify_value_rpc_1_svc(struct params param, int *result,  struct svc_req *rqstp)
 bool_t
 delete_key_rpc_1_svc(struct params param, int *result,  struct svc_req *rqstp)
 {
-	bool_t retval;
+	bool_t retval = 1;
 
 	/*
 	 * insert server code here
 	 */
+
+	*result = delete_key(param.key);
 
 	return retval;
 }
@@ -69,12 +78,12 @@ delete_key_rpc_1_svc(struct params param, int *result,  struct svc_req *rqstp)
 bool_t
 exist_rpc_1_svc(struct params param, int *result,  struct svc_req *rqstp)
 {
-	bool_t retval;
+	bool_t retval = 1;
 
 	/*
 	 * insert server code here
 	 */
-
+	*result = exist(param.key);
 	return retval;
 }
 
