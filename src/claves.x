@@ -7,11 +7,11 @@ struct params {
 
 program CLAVES{
     version CLAVESVER {
-        int init() = 1;
-        int set_value(struct params param) = 2;
-        int get_value(struct params param) = 3;
-        int modify_value(struct params param) = 4;
-        int delete_key(struct params param) = 5;
-        int exist(struct params param) = 6;
+        int init_rpc() = 1;
+        int set_value_rpc(struct params param) = 2;
+        int get_value_rpc(struct params param) = 3;
+        int modify_value_rpc(struct params param) = 4;
+        int delete_key_rpc(struct params param) = 5;
+        int exist_rpc(struct params param) = 6;
     } = 1;
 } = 99;

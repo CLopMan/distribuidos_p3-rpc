@@ -7,7 +7,7 @@
 #include "claves.h"
 
 bool_t
-init_1_svc(int *result, struct svc_req *rqstp)
+init_rpc_1_svc(int *result, struct svc_req *rqstp)
 {
 	bool_t retval;
 
@@ -19,7 +19,7 @@ init_1_svc(int *result, struct svc_req *rqstp)
 }
 
 bool_t
-set_value_1_svc(struct params param, int *result,  struct svc_req *rqstp)
+set_value_rpc_1_svc(struct params param, int *result,  struct svc_req *rqstp)
 {
 	bool_t retval;
 
@@ -31,7 +31,7 @@ set_value_1_svc(struct params param, int *result,  struct svc_req *rqstp)
 }
 
 bool_t
-get_value_1_svc(struct params param, int *result,  struct svc_req *rqstp)
+get_value_rpc_1_svc(struct params param, int *result,  struct svc_req *rqstp)
 {
 	bool_t retval;
 
@@ -43,7 +43,7 @@ get_value_1_svc(struct params param, int *result,  struct svc_req *rqstp)
 }
 
 bool_t
-modify_value_1_svc(struct params param, int *result,  struct svc_req *rqstp)
+modify_value_rpc_1_svc(struct params param, int *result,  struct svc_req *rqstp)
 {
 	bool_t retval;
 
@@ -55,7 +55,7 @@ modify_value_1_svc(struct params param, int *result,  struct svc_req *rqstp)
 }
 
 bool_t
-delete_key_1_svc(struct params param, int *result,  struct svc_req *rqstp)
+delete_key_rpc_1_svc(struct params param, int *result,  struct svc_req *rqstp)
 {
 	bool_t retval;
 
@@ -67,7 +67,7 @@ delete_key_1_svc(struct params param, int *result,  struct svc_req *rqstp)
 }
 
 bool_t
-exist_1_svc(struct params param, int *result,  struct svc_req *rqstp)
+exist_rpc_1_svc(struct params param, int *result,  struct svc_req *rqstp)
 {
 	bool_t retval;
 
