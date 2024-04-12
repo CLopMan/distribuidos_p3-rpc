@@ -9,7 +9,7 @@
 #include <string.h>
 #include <errno.h>
 #include "claves.h"
- //#include "claves_rpc.h"
+#include "claves_rpc.h"
 
 char* obtener_ip() {
 	char* ip;
@@ -31,7 +31,7 @@ CLIENT* create_clnt(char* host) {
 	return clnt;
 }
 
-void init() {
+int init() {
 	char* ip = obtener_ip();
 	CLIENT* clnt;
 	enum clnt_stat retval_1;
@@ -40,11 +40,14 @@ void init() {
 	retval_1 = init_rpc_1(&result_1, clnt);
 	if (retval_1 != RPC_SUCCESS) {
 		clnt_perror(clnt, "call failed");
+		return -1;
 	}
 	clnt_destroy(clnt);
+	return result_1;
+
 }
 
-void set_value(int key, char* value1, int N_value2, double* V_value2) {
+int set_value(int key, char* value1, int N_value2, double* V_value2) {
 	char* ip = obtener_ip();
 	CLIENT* clnt;
 	enum clnt_stat retval_2;
@@ -63,10 +66,12 @@ void set_value(int key, char* value1, int N_value2, double* V_value2) {
 	retval_2 = set_value_rpc_1(set_value_rpc_1_param, &result_2, clnt);
 	if (retval_2 != RPC_SUCCESS) {
 		clnt_perror(clnt, "call failed");
+		return -1;
 	}
 	clnt_destroy(clnt);
+	return result_2;
 }
-void get_value(int key, char* value1, int* N_value2, double* V_value2) {
+int get_value(int key, char* value1, int* N_value2, double* V_value2) {
 	char* ip = obtener_ip();
 	CLIENT* clnt;
 	enum clnt_stat retval_3;
@@ -85,10 +90,12 @@ void get_value(int key, char* value1, int* N_value2, double* V_value2) {
 	retval_3 = get_value_rpc_1(get_value_rpc_1_param, &result_3, clnt);
 	if (retval_3 != RPC_SUCCESS) {
 		clnt_perror(clnt, "call failed");
+		return -1;
 	}
 	clnt_destroy(clnt);
+	return result_3;
 }
-void delete_key(int key) {
+int delete_key(int key) {
 	char* ip = obtener_ip();
 	CLIENT* clnt;
 	enum clnt_stat retval_5;
@@ -102,10 +109,12 @@ void delete_key(int key) {
 	retval_5 = delete_key_rpc_1(delete_key_rpc_1_param, &result_5, clnt);
 	if (retval_5 != RPC_SUCCESS) {
 		clnt_perror(clnt, "call failed");
+		return -1;
 	}
 	clnt_destroy(clnt);
+	return result_5;
 }
-void modify_value(int key, char* value1, int N_value2, double* V_value2) {
+int modify_value(int key, char* value1, int N_value2, double* V_value2) {
 
 
 	char* ip = obtener_ip();
@@ -126,10 +135,12 @@ void modify_value(int key, char* value1, int N_value2, double* V_value2) {
 	retval_4 = modify_value_rpc_1(modify_value_rpc_1_param, &result_4, clnt);
 	if (retval_4 != RPC_SUCCESS) {
 		clnt_perror(clnt, "call failed");
+		return -1;
 	}
 	clnt_destroy(clnt);
+	return result_4;
 }
-void exist(int key) {
+int exist(int key) {
 	char* ip = obtener_ip();
 	CLIENT* clnt;
 	enum clnt_stat retval_6;
@@ -143,6 +154,57 @@ void exist(int key) {
 	retval_6 = exist_rpc_1(exist_rpc_1_param, &result_6, clnt);
 	if (retval_6 != RPC_SUCCESS) {
 		clnt_perror(clnt, "call failed");
+		return -1;
 	}
 	clnt_destroy(clnt);
+	return result_6;
+
+}
+
+int main(int argc, char* argv[]) {
+    double tres[] = { 3.3,33.3,333.3 };
+    int N;
+    char cd[] = "cd";
+    char texto[256];
+    int rn;
+    double rvec[32];
+    char hello[] = "Hello world";
+    double vec5[] = {1.1, 2.2, 3.3, 4.4, 5.5};
+
+    printf("INIT:\n");
+    init();
+    sleep(1);
+
+    int retorno = -1; 
+    retorno = set_value(3, cd, 3, tres);
+    printf("first set: %d\n", retorno); 
+    sleep(1);
+    retorno = set_value(9, cd, 3, tres);
+    printf("snd set: %d\n", retorno);
+    sleep(1);
+
+
+    get_value(3, texto, &rn, rvec);
+    printf("get_value:\n\ttexto: %s\n\tN: %d\n\tdoubles:", texto, rn);
+    for (int i = 0; i < rn; ++i) {
+        printf("\n\t\t[%d]: %lf", i, rvec[i]); 
+    }
+    printf("\n");
+
+    sleep(1);
+    
+    modify_value(3, hello, 5, vec5);
+    get_value(3, texto, &rn, rvec);
+    printf("first_modify:\n\ttexto: %s\n\tN: %d\n\tdoubles:", texto, rn);
+    for (int i = 0; i < rn; ++i) {
+        printf("\n\t\t[%d]: %lf", i, rvec[i]); 
+    }
+    printf("\n");
+    retorno = modify_value(5, cd, 3, tres);
+    printf("snd modify: %d\n", retorno);
+    
+    delete_key(3);
+    printf("exits: %i\n", exist(9));
+    printf("exits: %i\n", exist(3));
+    return 0;
 }
