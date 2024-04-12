@@ -20,7 +20,7 @@ OBJECTS_SVC = $(SOURCES_SVC.c:%.c=%.o) $(TARGETS_SVC.c:%.c=%.o)
 # Compiler flags 
 
 CPPFLAGS += -D_REENTRANT
-CFLAGS += -g 
+CFLAGS += -g -I/usr/include/tirpc -I/usr/include/ntirpc/ # for ubuntu or fedora usr
 LDLIBS += -lnsl -lpthread 
  RPCGENFLAGS = 
 
