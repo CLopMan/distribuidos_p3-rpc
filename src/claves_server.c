@@ -7,90 +7,102 @@
 #include "claves_rpc.h"
 #include "imp_clave.h"
 
+pthread_mutex_t m = PTHREAD_MUTEX_INITIALIZER;
+
 
 bool_t
-init_rpc_1_svc(int *result, struct svc_req *rqstp)
-{
+init_rpc_1_svc(int* result, struct svc_req* rqstp) {
 	bool_t retval = 1;
 
 	/*
 
 	 * insert server code here
 	 */
-	*result = init(); 
+	pthread_mutex_lock(&m);
+	*result = init();
+	pthread_mutex_unlock(&m);
 
 	return retval;
 }
 
 bool_t
-set_value_rpc_1_svc(struct params param, int *result,  struct svc_req *rqstp)
-{
+set_value_rpc_1_svc(struct params param, int* result, struct svc_req* rqstp) {
 	bool_t retval = 1;
 
 	/*
 	 * insert server code here
 	 */
-	*result = set_value(param.key, param.value1,  param.N_value2, param.value2);
+	pthread_mutex_lock(&m);
+	*result = set_value(param.key, param.value1, param.N_value2, param.value2);
+	pthread_mutex_unlock(&m);
 
 	return retval;
 }
 
 bool_t
-get_value_rpc_1_svc(struct params param, int *result,  struct svc_req *rqstp)
-{
+get_value_rpc_1_svc(struct params param, int* result, struct svc_req* rqstp) {
 	bool_t retval = 1;
 
 	/*
 	 * insert server code here
 	 */
-	*result = get_value(param.key, param.value1, &param.N_value2, param.value2);
+	pthread_mutex_lock(&m);
+	int* N_value2 = (int*)malloc(sizeof(int*));
+	*N_value2 = param.N_value2;
+	*result = get_value(param.key, param.value1, N_value2, param.value2);
+	free(N_value2);
+	pthread_mutex_unlock(&m);
 
 	return retval;
 }
 
 bool_t
-modify_value_rpc_1_svc(struct params param, int *result,  struct svc_req *rqstp)
-{
+modify_value_rpc_1_svc(struct params param, int* result, struct svc_req* rqstp) {
 	bool_t retval = 1;
 
 	/*
 	 * insert server code here
 	 */
+	pthread_mutex_unlock(&m);
 	*result = modify_value(param.key, param.value1, param.N_value2, param.value2);
+	pthread_mutex_unlock(&m);
 
 	return retval;
 }
 
 bool_t
-delete_key_rpc_1_svc(struct params param, int *result,  struct svc_req *rqstp)
-{
+delete_key_rpc_1_svc(struct params param, int* result, struct svc_req* rqstp) {
 	bool_t retval = 1;
 
 	/*
 	 * insert server code here
 	 */
-
+	pthread_mutex_unlock(&m);
 	*result = delete_key(param.key);
+	pthread_mutex_unlock(&m);
 
 	return retval;
 }
 
 bool_t
-exist_rpc_1_svc(struct params param, int *result,  struct svc_req *rqstp)
-{
+exist_rpc_1_svc(struct params param, int* result, struct svc_req* rqstp) {
 	bool_t retval = 1;
 
 	/*
 	 * insert server code here
 	 */
+	pthread_mutex_unlock(&m);
 	*result = exist(param.key);
+	pthread_mutex_unlock(&m);
+
 	return retval;
 }
 
 int
-claves_1_freeresult (SVCXPRT *transp, xdrproc_t xdr_result, caddr_t result)
-{
-	xdr_free (xdr_result, result);
+claves_1_freeresult(SVCXPRT* transp, xdrproc_t xdr_result, caddr_t result) {
+	xdr_free(xdr_result, result);
+
+
 
 	/*
 	 * Insert additional freeing code here, if needed

@@ -98,25 +98,28 @@ int modify_value(int key, char* value1, int N_value2, double* V_value2) {
 int get_value(int key, char* value1, int* N_value2, double* V_value2) {
     // Abrir el fichero si existe
     char filename[20];
+    printf("pepepep\n");
     if (-1 == sprintf(filename, "./tuples/%i.tuple", key)) {
         perror("Error formateando el nombre del fichero:");
         return -1;
     }
-
+    printf("papapap\n");
     FILE* desc = fopen(filename, "r");
     if (NULL == desc) {
         perror("Error abriendo el archivo:");
         return -1;
     }
+    printf("popopop\n");
     if (-1 == fread((void*)value1, 1, CHAR_SIZE, desc)) {
         perror("Error leyendo valor1:");
         return -1;
     }
-
+    printf("pipipip\n");
     if (-1 == fread(N_value2, sizeof(int), 1, desc)) {
         perror("ERROR-write N_value:");
         return -1;
     }
+    printf("pupupup\n");
     if (-1 == fread(V_value2, sizeof(double), *N_value2, desc)) {
         perror("ERROR-write doubles: ");
         return -1;
@@ -126,6 +129,7 @@ int get_value(int key, char* value1, int* N_value2, double* V_value2) {
 }
 
 int delete_key(int key) {
+    printf("rezo por acordarme de borrar esto\n");
     char filename[20];
     if (-1 == sprintf(filename, "./tuples/%i.tuple", key)) {
         perror("Error formateando el nombre del fichero:");

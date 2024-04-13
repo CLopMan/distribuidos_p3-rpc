@@ -2,6 +2,7 @@
     "files.associations": {
         "claves.h": "c",
         "imp_clave.h": "c",
-        "pthread.h": "c"
+        "pthread.h": "c",
+        "string.h": "c"
     }
 }
