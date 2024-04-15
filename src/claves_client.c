@@ -149,7 +149,7 @@ int delete_key(int key) {
 	clnt = create_clnt(ip);
 	printf("despues del create\n");
 	retval_5 = delete_key_rpc_1(delete_key_rpc_1_param, &result_5, clnt);
-	printf("sabías que este programa no funciona en uno de los ordenadores del grupo?\n");
+	printf("Después de llamar a la función de comunicación\n");
 	if (retval_5 != RPC_SUCCESS) {
 		clnt_perror(clnt, "call failed");
 		return -1;

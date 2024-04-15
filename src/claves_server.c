@@ -14,10 +14,6 @@ bool_t
 init_rpc_1_svc(int* result, struct svc_req* rqstp) {
 	bool_t retval = 1;
 
-	/*
-
-	 * insert server code here
-	 */
 	pthread_mutex_lock(&m);
 	*result = init();
 	pthread_mutex_unlock(&m);
@@ -29,9 +25,6 @@ bool_t
 set_value_rpc_1_svc(struct params param, int* result, struct svc_req* rqstp) {
 	bool_t retval = 1;
 
-	/*
-	 * insert server code here
-	 */
 	pthread_mutex_lock(&m);
 	*result = set_value(param.key, param.value1, param.N_value2, param.value2);
 	pthread_mutex_unlock(&m);
@@ -43,9 +36,6 @@ bool_t
 get_value_rpc_1_svc(struct params param, int* result, struct svc_req* rqstp) {
 	bool_t retval = 1;
 
-	/*
-	 * insert server code here
-	 */
 	pthread_mutex_lock(&m);
 	int* N_value2 = (int*)malloc(sizeof(int*));
 	*N_value2 = param.N_value2;
@@ -60,9 +50,6 @@ bool_t
 modify_value_rpc_1_svc(struct params param, int* result, struct svc_req* rqstp) {
 	bool_t retval = 1;
 
-	/*
-	 * insert server code here
-	 */
 	pthread_mutex_unlock(&m);
 	*result = modify_value(param.key, param.value1, param.N_value2, param.value2);
 	pthread_mutex_unlock(&m);
@@ -74,9 +61,6 @@ bool_t
 delete_key_rpc_1_svc(struct params param, int* result, struct svc_req* rqstp) {
 	bool_t retval = 1;
 
-	/*
-	 * insert server code here
-	 */
 	pthread_mutex_unlock(&m);
 	*result = delete_key(param.key);
 	pthread_mutex_unlock(&m);
@@ -88,9 +72,6 @@ bool_t
 exist_rpc_1_svc(struct params param, int* result, struct svc_req* rqstp) {
 	bool_t retval = 1;
 
-	/*
-	 * insert server code here
-	 */
 	pthread_mutex_unlock(&m);
 	*result = exist(param.key);
 	pthread_mutex_unlock(&m);
