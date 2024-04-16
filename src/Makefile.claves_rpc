@@ -3,25 +3,26 @@
 
 # Parameters
 
-CLIENT = claves_client
-SERVER = claves_server
+CLIENT = claves_rpc_client
+SERVER = claves_rpc_server
 
 SOURCES_CLNT.c = 
 SOURCES_CLNT.h = 
-SOURCES_SVC.c = 
+SOURCES_SVC.c=
 SOURCES_SVC.h = 
-SOURCES.x = claves.x
+SOURCES.x = claves_rpc.x
 
-TARGETS_SVC.c = claves_svc.c claves_server.c claves_xdr.c imp_clave.c
-TARGETS_CLNT.c = claves_clnt.c claves_client.c claves_xdr.c 
+TARGETS_SVC.c = claves_rpc_svc.c claves_rpc_server.c claves_rpc_xdr.c 
+TARGETS_CLNT.c = claves_rpc_clnt.c claves_rpc_client.c claves_rpc_xdr.c claves.c 
+TARGETS = claves_rpc.h claves_rpc_xdr.c claves_rpc_clnt.c claves_rpc_svc.c claves_rpc_client.c claves_rpc_server.c 
 
 OBJECTS_CLNT = $(SOURCES_CLNT.c:%.c=%.o) $(TARGETS_CLNT.c:%.c=%.o)
 OBJECTS_SVC = $(SOURCES_SVC.c:%.c=%.o) $(TARGETS_SVC.c:%.c=%.o)
 # Compiler flags 
 
 CPPFLAGS += -D_REENTRANT
-CFLAGS += -g -I/usr/include/tirpc -I/usr/include/ntirpc/ # for ubuntu or fedora usr
-LDLIBS += -lnsl -lpthread -ltirpc
+CFLAGS += -g -I/usr/include/tirpc
+LDLIBS += -lnsl -lpthread -ldl -ltirpc
  RPCGENFLAGS = 
 
 # Targets 
@@ -41,7 +42,6 @@ $(CLIENT) : $(OBJECTS_CLNT)
 $(SERVER) : $(OBJECTS_SVC) 
 	$(LINK.c) -o $(SERVER) $(OBJECTS_SVC) $(LDLIBS)
 
-
  clean:
-	 $(RM) core  $(OBJECTS_CLNT) $(OBJECTS_SVC) $(CLIENT) $(SERVER)
+	 $(RM) core $(OBJECTS_CLNT) $(OBJECTS_SVC) $(CLIENT) $(SERVER)
 

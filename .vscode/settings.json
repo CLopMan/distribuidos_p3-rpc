@@ -3,6 +3,9 @@
         "claves.h": "c",
         "imp_clave.h": "c",
         "pthread.h": "c",
-        "string.h": "c"
+        "string.h": "c",
+        "claves_rpc.h": "c",
+        "chrono": "c",
+        "stdlib.h": "c"
     }
 }
