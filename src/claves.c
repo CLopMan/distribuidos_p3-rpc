@@ -20,7 +20,7 @@ char* get_ip() {
 
 int init() {
     char *ip = get_ip();
-    if (NULL != ip) return -1;
+    if (NULL == ip) return -1;
     printf("ip: %s\n", ip);
     CLIENT *clnt;
     clnt = clnt_create(ip, CLAVES, CLAVESVER, "tcp");
@@ -40,7 +40,7 @@ int init() {
 
 int set_value(int key, char* value1, int N_value2, double* V_value2) {
     char *ip = get_ip();
-    if (NULL != ip) return -1;
+    if (NULL == ip) return -1;
     CLIENT *clnt;
     clnt = clnt_create(ip, CLAVES, CLAVESVER, "tcp");
     if (clnt == NULL) {
@@ -63,7 +63,7 @@ int set_value(int key, char* value1, int N_value2, double* V_value2) {
 
 int get_value(int key, char* value1, int* N_value2, double* V_value2) {
     char *ip = get_ip();
-    if (NULL != ip) return -1;
+    if (NULL == ip) return -1;
     CLIENT *clnt;
     clnt = clnt_create(ip, CLAVES, CLAVESVER, "tcp");
     if (clnt == NULL) {
@@ -87,7 +87,7 @@ int get_value(int key, char* value1, int* N_value2, double* V_value2) {
 
 int modify_value(int key, char* value1, int N_value2, double* V_value2) {
     char *ip = get_ip();
-    if (NULL != ip) return -1;
+    if (NULL == ip) return -1;
     CLIENT *clnt;
     clnt = clnt_create(ip, CLAVES, CLAVESVER, "tcp");
     if (clnt == NULL) {
@@ -108,7 +108,7 @@ int modify_value(int key, char* value1, int N_value2, double* V_value2) {
 
 int delete_key(int key) {
     char *ip = get_ip();
-    if (NULL != ip) return -1;
+    if (NULL == ip) return -1;
     CLIENT *clnt;
     clnt = clnt_create(ip, CLAVES, CLAVESVER, "tcp");
     if (clnt == NULL) {
@@ -125,20 +125,25 @@ int delete_key(int key) {
 }
 
 int exist(int key) {
+    printf("call exist\n");
     char *ip = get_ip();
-    if (NULL != ip) return -1;
+    if (NULL == ip) {printf("hola\n"); return -1;}
     CLIENT *clnt;
     clnt = clnt_create(ip, CLAVES, CLAVESVER, "tcp");
     if (clnt == NULL) {
+        printf("clng == NULL\n");
         clnt_pcreateerror (ip);
 		return -1;
     }
-    int result;
+    int result = 1;
+    printf("llamada\n");
     enum clnt_stat retval = rpc_exist_1(key, &result, clnt);
     if (retval != RPC_SUCCESS) {
+        printf("hola\n");
 		clnt_perror (clnt, "call failed");
 	}
 
+    printf("fin\n");
     return result;
 
 }
