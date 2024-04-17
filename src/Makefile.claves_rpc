@@ -12,7 +12,7 @@ SOURCES_SVC.c=
 SOURCES_SVC.h = 
 SOURCES.x = claves_rpc.x
 
-TARGETS_SVC.c = claves_rpc_svc.c claves_rpc_server.c claves_rpc_xdr.c 
+TARGETS_SVC.c = claves_rpc_svc.c claves_rpc_server.c claves_rpc_xdr.c imp_clave.c
 TARGETS_CLNT.c = claves_rpc_clnt.c claves_rpc_client.c claves_rpc_xdr.c claves.c 
 TARGETS = claves_rpc.h claves_rpc_xdr.c claves_rpc_clnt.c claves_rpc_svc.c claves_rpc_client.c claves_rpc_server.c 
 

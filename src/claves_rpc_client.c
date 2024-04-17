@@ -39,7 +39,7 @@ claves_1(char *host)
 	int rpc_exist_1_key;
 
 #ifndef	DEBUG
-	clnt = clnt_create (host, CLAVES, CLAVESVER, "udp");
+	clnt = clnt_create (host, CLAVES, CLAVESVER, "tcp");
 	if (clnt == NULL) {
 		clnt_pcreateerror (host);
 		exit (1);

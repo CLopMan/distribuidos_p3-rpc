@@ -8,20 +8,20 @@
 #include "const.h"
 #include "claves.h"
 
-int get_ip(char *ip) {
-    ip = getenv("IP_TUPLAS");
-    printf(">>>%s\n", ip);
+char* get_ip() {
+    char *ip = getenv("IP_TUPLAS");
     if (ip == NULL) {
         perror("NOT setted ip");
-        return -1;
+        return NULL;
     }
-    return 0;
+    return ip;
 }
 
 
 int init() {
-    char ip[32];
-    if (get_ip(ip) != 0) return -1;
+    char *ip = get_ip();
+    if (NULL != ip) return -1;
+    printf("ip: %s\n", ip);
     CLIENT *clnt;
     clnt = clnt_create(ip, CLAVES, CLAVESVER, "tcp");
     if (clnt == NULL) {
@@ -39,8 +39,8 @@ int init() {
 }
 
 int set_value(int key, char* value1, int N_value2, double* V_value2) {
-    char ip[32];
-    if (get_ip(ip) != 0) return -1;
+    char *ip = get_ip();
+    if (NULL != ip) return -1;
     CLIENT *clnt;
     clnt = clnt_create(ip, CLAVES, CLAVESVER, "tcp");
     if (clnt == NULL) {
@@ -62,8 +62,8 @@ int set_value(int key, char* value1, int N_value2, double* V_value2) {
 }
 
 int get_value(int key, char* value1, int* N_value2, double* V_value2) {
-    char ip[32];
-    if (get_ip(ip) != 0) return -1;
+    char *ip = get_ip();
+    if (NULL != ip) return -1;
     CLIENT *clnt;
     clnt = clnt_create(ip, CLAVES, CLAVESVER, "tcp");
     if (clnt == NULL) {
@@ -86,8 +86,8 @@ int get_value(int key, char* value1, int* N_value2, double* V_value2) {
 }
 
 int modify_value(int key, char* value1, int N_value2, double* V_value2) {
-    char ip[32];
-    if (get_ip(ip) != 0) return -1;
+    char *ip = get_ip();
+    if (NULL != ip) return -1;
     CLIENT *clnt;
     clnt = clnt_create(ip, CLAVES, CLAVESVER, "tcp");
     if (clnt == NULL) {
@@ -107,8 +107,8 @@ int modify_value(int key, char* value1, int N_value2, double* V_value2) {
 }
 
 int delete_key(int key) {
-    char ip[32];
-    if (get_ip(ip) != 0) return -1;
+    char *ip = get_ip();
+    if (NULL != ip) return -1;
     CLIENT *clnt;
     clnt = clnt_create(ip, CLAVES, CLAVESVER, "tcp");
     if (clnt == NULL) {
@@ -125,8 +125,8 @@ int delete_key(int key) {
 }
 
 int exist(int key) {
-    char ip[32];
-    if (get_ip(ip) != 0) return -1;
+    char *ip = get_ip();
+    if (NULL != ip) return -1;
     CLIENT *clnt;
     clnt = clnt_create(ip, CLAVES, CLAVESVER, "tcp");
     if (clnt == NULL) {
