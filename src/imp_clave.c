@@ -14,6 +14,7 @@ double[32*8]
 */
 
 int init() {
+    printf("init\n");
     DIR* dir;
     struct dirent* entrada;
 
@@ -46,7 +47,7 @@ int init() {
 }
 
 int write_file(int key, char* value1, int N_value2, double* V_value2, char permiso[4]) {
-
+    
     char file_name[32];
     sprintf(file_name, "./tuples/%i.tuple", key);
 
@@ -77,6 +78,7 @@ int write_file(int key, char* value1, int N_value2, double* V_value2, char permi
 
 // la he probado con un minicódigo en c y parece que funciona
 int set_value(int key, char* value1, int N_value2, double* V_value2) {
+    printf("Set_value\n");
     /*validaciones*/
     if (N_value2 > 32 || N_value2 < 1) {
         perror("ERROR: N_value 2 out of range");
@@ -88,6 +90,7 @@ int set_value(int key, char* value1, int N_value2, double* V_value2) {
 
 int modify_value(int key, char* value1, int N_value2, double* V_value2) {
     /*validaciones*/
+    printf("modify_value\n");
     if (N_value2 > 32 || N_value2 < 1) {
         perror("ERROR: N_value 2 out of range");
     }
@@ -96,30 +99,26 @@ int modify_value(int key, char* value1, int N_value2, double* V_value2) {
 }
 
 int get_value(int key, char* value1, int* N_value2, double* V_value2) {
+    printf("get value\n");
     // Abrir el fichero si existe
     char filename[20];
-    printf("pepepep\n");
     if (-1 == sprintf(filename, "./tuples/%i.tuple", key)) {
         perror("Error formateando el nombre del fichero:");
         return -1;
     }
-    printf("papapap\n");
     FILE* desc = fopen(filename, "r");
     if (NULL == desc) {
         perror("Error abriendo el archivo:");
         return -1;
     }
-    printf("popopop\n");
     if (-1 == fread((void*)value1, 1, CHAR_SIZE, desc)) {
         perror("Error leyendo valor1:");
         return -1;
     }
-    printf("pipipip\n");
     if (-1 == fread(N_value2, sizeof(int), 1, desc)) {
         perror("ERROR-write N_value:");
         return -1;
     }
-    printf("pupupup\n");
     if (-1 == fread(V_value2, sizeof(double), *N_value2, desc)) {
         perror("ERROR-write doubles: ");
         return -1;
@@ -129,7 +128,7 @@ int get_value(int key, char* value1, int* N_value2, double* V_value2) {
 }
 
 int delete_key(int key) {
-    printf("rezo por acordarme de borrar esto\n");
+    printf("deletekey\n");
     char filename[20];
     if (-1 == sprintf(filename, "./tuples/%i.tuple", key)) {
         perror("Error formateando el nombre del fichero:");
@@ -139,6 +138,7 @@ int delete_key(int key) {
 }
 
 int exist(int key) {
+    printf("exist\n");
     char filename[20];
     if (-1 == sprintf(filename, "./tuples/%i.tuple", key)) {
         perror("Error formateando el nombre del fichero:");

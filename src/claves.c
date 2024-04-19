@@ -79,7 +79,7 @@ int get_value(int key, char* value1, int* N_value2, double* V_value2) {
 	}
     *N_value2 = args.N_value2;
     strcpy(value1, args.value1);
-    memcpy(V_value2, args.value2, *N_value2);
+    memcpy(V_value2, args.value2, *(N_value2 ) * sizeof(double));
 
     return result;
 
@@ -139,7 +139,7 @@ int exist(int key) {
     printf("llamada\n");
     enum clnt_stat retval = rpc_exist_1(key, &result, clnt);
     if (retval != RPC_SUCCESS) {
-        printf("hola\n");
+        printf("error cliente\n");
 		clnt_perror (clnt, "call failed");
 	}
 
