@@ -38,9 +38,9 @@ $(OBJECTS_CLNT) : $(SOURCES_CLNT.c) $(SOURCES_CLNT.h) $(TARGETS_CLNT.c)
 $(OBJECTS_SVC) : $(SOURCES_SVC.c) $(SOURCES_SVC.h) $(TARGETS_SVC.c) 
 
 $(CLIENT) : $(OBJECTS_CLNT) 
-	gcc $(LDLIBS) -shared -o libclaves.so $(OBJECTS_CLNT) 
+	gcc $(LDLIBS) -shared -o libclaves.so $(OBJECTS_CLNT)
 	gcc -c -o $(SRC)cliente.o $(SRC)cliente.c
-	gcc -L. -Wl,-rpath=. -o $(CLIENT) $(SRC)cliente.o libclaves.so
+	gcc -L. -Wl,-rpath=. -o $(CLIENT) $(SRC)cliente.o -lclaves $(LDLIBS)
 
 $(SERVER) : $(OBJECTS_SVC) 
 	$(LINK.c) -o $(SERVER) $(OBJECTS_SVC) $(LDLIBS)
