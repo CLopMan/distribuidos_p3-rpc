@@ -38,9 +38,9 @@
      Curso 2023-24}
     \vspace{2cm}
 
-    {\Huge \textbf{Práctica 2} \par}
+    {\Huge \textbf{Práctica 3} \par}
     \vspace{0.5cm}
-    {\Large Sockets \par}
+    {\Large RPC \par}
     \vspace{8cm}
 
    \textbf{Ingeniería Informática, Tercer curso}\\
@@ -98,7 +98,38 @@ La comunicación, tal y como especificamos anteriormente, se realiza a través d
 
 \subsubsection{Interfaz.x}
 \label{subsec:interfaz.x}
-Para hacer los mensajes independientes del lenguaje de programación o arquitectura de la máquina, transmitiremos la información como cadenas de texto. Además, los mensajes serán transmitidos byte a byte para evitar la problemática presentada por la diferencia entre  arquitecturas \textit{little-endian} y \textit{big-endian}.
+Para especificar la interfaz en lenguaje XDR se ha analizado cada operación para especificar sus argumentos de entrada y salida. Pese al parecido que tiene este lenguaje con lenguaje C, caben destacar algunas particularidades y decisiones de diseño tomadas para el desarrollo de la práctica. 
+
+En cuanto a las operaciones, \textit{init} no recibe argumentos, \textit{delete\_key}, \textit{exist} y \textit{get\_value} reciben únicamente un valor entero y \textit{set\_value} y \textit{modify\_value} reciben 2 unteros (value1 y value2) y un valor entero. Todas las funciones devuelven únicamente un argumento de salida, un valor entero que indica si se ha realizado exitosamente, a excepción de \textit{get\_value} que devuelve además los valores almacenados en una tupla (i.e. un array de caracteres, un número entero y un array de 32 números en coma flotante de doble precisión). 
+
+Con esto en mente, se ha especificado la interfaz de la siguiente forma. 
+\begin{center}
+\begin{lstlisting}[caption=Compiación de biblioteca dinámica]
+typedef double vector\_value2<>;
+struct get\_exit\_args {
+    char value1[256];
+    int N\_value2;
+    double value2[32];
+    int result;
+
+};
+
+
+program CLAVES {
+    version CLAVESVER {
+        int rpc\_init() = 0;
+        int rpc\_set\_value(int key, string value1, int N\_value2, vector\_value2 value2) = 1;
+        get\_exit\_args rpc\_get\_value(int key) = 2;
+        int rpc\_modify\_value(int key, string value1, int N\_value2, vector\_value2 value2) = 3;
+        int rpc\_delete\_key(int key) = 4; 
+        int rpc\_exist(int key) = 5; 
+    } = 1;
+} = 99; 
+
+\end{lstlisting}
+\end{center}
+
+Para los arrays hemos utilizado una construcción que nos permite inicializarlos como memoria estática. De esta forma hemos evitado tener que gestionar memoria dinámica en la implementación. Los argumentos de salida de la función \textit{get\_value} se han encapsulado en una estructura.  
 
 \subsubsection{Modificación de la plantilla}
 \label{subsec::modificacion_plantilla}
@@ -107,44 +138,37 @@ Para hacer los mensajes independientes del lenguaje de programación o arquitect
 \label{sec:compilacion}
 En esta sección se describe la forma de compilar el proyecto para generar dos ejecutables cliente y servidor.
 
-
-Todos los comandos que se exponen a continuación quedan recogidos en un archivo \textit{Makefile} encargado de generar ambos ejecutables. 
+Todos los comandos que se exponen a continuación quedan recogidos en un archivo \textit{Makefile.claves\_rpc} encargado de generar ambos ejecutables, así cómo de compilar la biblioteca dinámica. Este archivo parte de la plantilla generada por \textit{rpcgen} y ha sido modificado para adaptarlo a las exigencias de la práctica.  
 
 \subsection{Biblioteca Dinámica}
 \label{subsec:biblioteca}
-Tal y cómo hemos descrito anteriormente, el código fuente de la biblioteca dinámica está contenido en el archivo \textit{claves.c}. Para compilarlo como una biblioteca dinámica se han empleado los siguientes comandos.
+La compilación de la biblioteca dinámica ha cambiado respecto a las prácticas anteriores. Esto es porque debemos incluir los ficheros generados por \textit{rpcgen} y adaptarnos al \textit{Makefile} que nos otorga como plantilla.
 
+A continuación, se adjunta el código empleado para la compilación de la biblioteca dinámica. Este se ha incluído justo antes de la generación del ejecutable \textit{cliente}. 
 \begin{center}
 \begin{lstlisting}[caption=Compiación de biblioteca dinámica]
-\# código objeto
-gcc -c -fPIC claves.c
-\# biblioteca dinámica
-gcc -shared -o libclaves.so claves.o
+gcc \$(LDLIBS) -shared -o libclaves.so \$(OBJECTS\_CLNT)
+	gcc -c -o \$(SRC)cliente.o \$(SRC)cliente.c
+	gcc -L. -Wl,-rpath=. -o \$(CLIENT) \$(SRC)cliente.o -lclaves \$(LDLIBS)
+
 \end{lstlisting}
 \end{center}
 
-Con estos comandos generamos un archivo de código para enlazar con otro ejecutable. Este código será independiente de la posición. 
+Con estos comandos generamos un fichero \textit{libclaves.so} y lo enlazamos con el ejecutable \textit{cliente}. Cabe destacar que para poder mantener la compatibilidad con versiones de \textit{gcc} anteriores a la 13 se deben incluir las bibliotecas (i.e. -lclaves y LDLIBS) al final del comando. También ha sido necesario modificar la plantilla para que todos los ficheros objetos se compilen con la opción \textit{-fPIC}, para hacer el código independiente de la posición de memoria. 
 
 \subsection{Cliente}
 \label{subsec:cliente}
-El código fuente del cliente está contenido en el archivo \textit{cliente.c}. Este se compila enlazándolo con la biblioteca dinámica a través de los siguientes comandos: 
+El código fuente del cliente está contenido en el archivo \textit{cliente.c}. Este se compila con el comando especificado en el apartado anterior. La única modificación de la plantilla ha sido su compilación por separado para enlazarlo con la biblioteca dinámica. 
 
-\begin{center}
-\begin{lstlisting}[caption=Compiación de biblioteca dinámica]
-\# generacion del objeto
-gcc -c cliente.c
-
-\# generar ejecutable con biblioteca dinámica
-gcc -L. -Wl,-rpath=. -lclaves -o cliente cliente.o
-\end{lstlisting}
-\end{center}
-
+\subsection{Servidor}
+\label{subsec:compile_server}
+La compilación del servidor viene dada en la plantilla generada por \textit{rpcgen}. La única modificación necesaria ha sido añadir nuestro módulo \textit{imp\_clave.c} como fichero fuente del servidor para compilarlo junto con el resto de ficheros. 
 
 \section{Descripción de pruebas}
 \label{sec:descripcion_de_pruebas}
 Para validar el correcto funcionamiento del sistema, hemos realizado dos bloques de pruebas. 
 
-El primero, encargado de comprobar la implementación y concurrencia del sistema, reutiliza las pruebas desarrolladas para la primera parte. El resultado de estas pruebas es exitoso, tal y como esperábamos ya que no hemos modificado la implementación de los servicios.
+El primero, encargado de comprobar la implementación y concurrencia del sistema, reutiliza las pruebas desarrolladas para la práctica anterior. El resultado de estas pruebas es exitoso, tal y como esperábamos ya que no hemos modificado la implementación de los servicios.
 
 Para el segundo bloque, encargado de comprobar la comunicación y correcta serialización de los datos, hemos conectado dos máquinas distintas (una lanzando el servidor y otra varios clientes) en una misma red LAN. El resultado de estas pruebas también ha sido exitoso.
 
@@ -152,7 +176,7 @@ Para el segundo bloque, encargado de comprobar la comunicación y correcta seria
 \label{sec:conclusiones}
 Este ejercicio nos ha permitido explorar una nueva aproximación para el desarrollo de aplicaciones distribuídas, la llamada a procedimientos remotos. Esta forma de desarrollo nos permite una mayor abstracción, ayudándonos de herramientas de generación de código automático. 
 
-La herramienta utilizada, aunque algo tosca, nos ofrece las mismas ventajas que el desarrollo con sockets pero con una sintaxis más sencilla y reduciendo el tiempo de codificación. Sin embargo, esto no quita la necesidad de revisar el código generado y adaptarlo a las necesidades concretas de la aplicación. 
+La herramienta utilizada, aunque algo tosca, nos ofrece las mismas ventajas que el desarrollo con sockets pero con una sintaxis más sencilla y reduciendo el tiempo de codificación. Sin embargo, esto no quita la necesidad de revisar el código generado y adaptarlo a las necesidades concretas de la aplicación. Además, debido a particularidades de nuestros equipos el comando \textit{rpcgen} presentó problemas que complicaron el desarrollo. 
 
 El desarrollo de esta práctica, junto con las dos anteriores, nos ha permitido explorar diversos mecanismos de comunicación, cada uno con sus particularidades. Esto nos ha permitido afianzar las bases en la programación de aplicaciones distribuídas, dándonos las herramientas suficientes para afrontar el desarrollo de la práctica final. 
 
