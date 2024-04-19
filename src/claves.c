@@ -68,7 +68,7 @@ int get_value(int key, char* value1, int* N_value2, double* V_value2) {
     clnt = clnt_create(ip, CLAVES, CLAVESVER, "tcp");
     if (clnt == NULL) {
         clnt_pcreateerror (ip);
-		return -1;
+		return -1; 
     }
     int result;
     get_exit_args args;

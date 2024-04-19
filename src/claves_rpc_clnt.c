@@ -15,7 +15,7 @@ rpc_init_1(int *clnt_res, CLIENT *clnt)
 	 return (clnt_call (clnt, rpc_init, (xdrproc_t) xdr_void, (caddr_t) NULL,
 		(xdrproc_t) xdr_int, (caddr_t) clnt_res,
 		TIMEOUT));
-
+ 
 }
 
 enum clnt_stat 
