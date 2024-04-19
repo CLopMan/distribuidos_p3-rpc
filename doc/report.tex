@@ -74,7 +74,6 @@ La aplicación constará de dos partes diferenciadas: los clientes y el servidor
 
 \subsection{Cliente}
 \label{subsec:cliente}
-[modificar]
 Siguiendo la misma aproximación que en el ejercicio anterior, el cliente no ha necesitado de cambios ya que la única parte afectada por los requisitos de este ejercicio es la comunicación. La comunicación entre el cliente y el servidor está completamente encapsulada en la biblioteca dinámica \textit{libclaves.so}. Por esto, se han utilizado los ficheros proporcionados por \textit{rpcgen} como plantilla, que sirven como código fuente de la bibliteca dinámica.
 
 \subsection{Servidor}
@@ -90,11 +89,11 @@ Siguiendo la misma idea que en la práctica anterior, guardaremos las tuplas en 
 
 \subsubsection{Concurrencia del Servidor}
 \label{subsec::concurrencia_servidor}
-
+A través de \textit{rpc} no se puede asegurar la concurrencia, ni la creación de hilos; pero la posibilidad de esto nos obliga a utilizar un código sin condiciones de carrera. Para ello no es necesario utilizar ningún mecanismo de sincronización dado que en la implementación se usan ficheros con tamaños más pequeños que una página, por lo que el sistema operativo nos asegura la inexistencia de condiciones de carrera.
 
 \subsection{Comunicación}
 \label{subsec:comunicacion}
-La comunicación, tal y como especificamos anteriormente, se realiza a través de \textit{llamadas a procesos remotos}. Este mecanismo permite comunicar dos procesos cualesquiera en la misma red, independientemente de la arquitectura de la máquina que los ejecuta o el lenguaje de programación en el que esté escrita la aplicación. Es por esto que es importante que la información transmitida por las partes cliente y servidor de nuestro sistema sea también independiente de estos menesteres. 
+La comunicación, tal y como especificamos anteriormente, se realiza a través de \textbf{llamadas a procedimientos remotos}. Este mecanismo permite comunicar dos procesos cualesquiera en la misma red, independientemente de la arquitectura de la máquina que los ejecuta o el lenguaje de programación en el que esté escrita la aplicación. Es por esto que es importante que la información transmitida por las partes cliente y servidor de nuestro sistema sea también independiente de estos menesteres. 
 
 \subsubsection{Interfaz.x}
 \label{subsec:interfaz.x}
@@ -102,6 +101,9 @@ Para hacer los mensajes independientes del lenguaje de programación o arquitect
 
 \subsubsection{Modificación de la plantilla}
 \label{subsec::modificacion_plantilla}
+
+\textit{Rpc} nos ha proporcionado una plantilla dada la interfaz antes mencionada. De esta plantilla hemos desechado del lado cliente el fichero \textit{claves\_rpc\_client.c} para generar un \textit{cliente.c} y \textit{claves.c}. En esta segunda nos hemos servido de \textit{rpcgen} para implementar la interfaz del cliente. En cada una de las implementaciones de las funciones se utilizan los argumentos dado para llamar a la función creada por \textit{rpc} propia de cada función, la cual realiza el correspondiente \textit{marshalling/unmarshalling} y vuelca el contenido en la red.
+Respecto a la plantilla del lado servidor se renombrado el fichero \textit{claves\_rpc\_server.c} a \textit{servidor.c} y en cada una de las funciones proporcionadas se invoca a las funciones de la implementación.
 
 \section{Compilación}
 \label{sec:compilacion}
