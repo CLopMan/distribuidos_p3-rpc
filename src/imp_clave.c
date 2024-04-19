@@ -14,7 +14,6 @@ double[32*8]
 */
 
 int init() {
-    printf("init\n");
     DIR* dir;
     struct dirent* entrada;
 
@@ -76,9 +75,7 @@ int write_file(int key, char* value1, int N_value2, double* V_value2, char permi
     return 0;
 }
 
-// la he probado con un minicódigo en c y parece que funciona
 int set_value(int key, char* value1, int N_value2, double* V_value2) {
-    printf("Set_value\n");
     /*validaciones*/
     if (N_value2 > 32 || N_value2 < 1) {
         perror("ERROR: N_value 2 out of range");
@@ -90,7 +87,6 @@ int set_value(int key, char* value1, int N_value2, double* V_value2) {
 
 int modify_value(int key, char* value1, int N_value2, double* V_value2) {
     /*validaciones*/
-    printf("modify_value\n");
     if (N_value2 > 32 || N_value2 < 1) {
         perror("ERROR: N_value 2 out of range");
     }
@@ -99,7 +95,6 @@ int modify_value(int key, char* value1, int N_value2, double* V_value2) {
 }
 
 int get_value(int key, char* value1, int* N_value2, double* V_value2) {
-    printf("get value\n");
     // Abrir el fichero si existe
     char filename[20];
     if (-1 == sprintf(filename, "./tuples/%i.tuple", key)) {
@@ -128,7 +123,6 @@ int get_value(int key, char* value1, int* N_value2, double* V_value2) {
 }
 
 int delete_key(int key) {
-    printf("deletekey\n");
     char filename[20];
     if (-1 == sprintf(filename, "./tuples/%i.tuple", key)) {
         perror("Error formateando el nombre del fichero:");
@@ -138,7 +132,6 @@ int delete_key(int key) {
 }
 
 int exist(int key) {
-    printf("exist\n");
     char filename[20];
     if (-1 == sprintf(filename, "./tuples/%i.tuple", key)) {
         perror("Error formateando el nombre del fichero:");
