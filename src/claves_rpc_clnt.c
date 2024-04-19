@@ -65,7 +65,6 @@ rpc_delete_key_1(int key, int *clnt_res,  CLIENT *clnt)
 enum clnt_stat 
 rpc_exist_1(int key, int *clnt_res,  CLIENT *clnt)
 {
-	printf("he entrado aquí\n");
 	return (clnt_call(clnt, rpc_exist,
 		(xdrproc_t) xdr_int, (caddr_t) &key,
 		(xdrproc_t) xdr_int, (caddr_t) clnt_res,
