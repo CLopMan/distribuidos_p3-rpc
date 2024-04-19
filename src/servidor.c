@@ -16,18 +16,11 @@
 #include <dirent.h>
 #include <stdlib.h>
 
-/*Estructura de fichero
-char [256]
-N_value [4]
-double[32*8]
-*/
-
-
-
-
+ /**
+  * Función que se encarga de llamar a la implementación de init()
+ */
 bool_t
-rpc_init_1_svc(int *result, struct svc_req *rqstp)
-{
+rpc_init_1_svc(int* result, struct svc_req* rqstp) {
 	bool_t retval = TRUE;
 	printf("INIT\n");
 	*result = init();
@@ -35,9 +28,12 @@ rpc_init_1_svc(int *result, struct svc_req *rqstp)
 	return retval;
 }
 
+
+/**
+ * Función que se encarga de llamar a la implementación de set_value()
+*/
 bool_t
-rpc_set_value_1_svc(int key, char *value1, int N_value2, vector_value2 value2, int *result,  struct svc_req *rqstp)
-{
+rpc_set_value_1_svc(int key, char* value1, int N_value2, vector_value2 value2, int* result, struct svc_req* rqstp) {
 	bool_t retval = TRUE;
 
 	*result = set_value(key, value1, N_value2, value2.vector_value2_val);
@@ -45,9 +41,12 @@ rpc_set_value_1_svc(int key, char *value1, int N_value2, vector_value2 value2, i
 	return retval;
 }
 
+
+/**
+ * Función que se encarga de llamar a la implementación de get_value()
+*/
 bool_t
-rpc_get_value_1_svc(int key, get_exit_args *result,  struct svc_req *rqstp)
-{
+rpc_get_value_1_svc(int key, get_exit_args* result, struct svc_req* rqstp) {
 	bool_t retval = TRUE;
 
 	result->result = get_value(key, result->value1, &(result->N_value2), result->value2);
@@ -55,9 +54,11 @@ rpc_get_value_1_svc(int key, get_exit_args *result,  struct svc_req *rqstp)
 	return retval;
 }
 
+/**
+ * Función que se encarga de llamar a la implementación de modify_value()
+*/
 bool_t
-rpc_modify_value_1_svc(int key, char *value1, int N_value2, vector_value2 value2, int *result,  struct svc_req *rqstp)
-{
+rpc_modify_value_1_svc(int key, char* value1, int N_value2, vector_value2 value2, int* result, struct svc_req* rqstp) {
 	bool_t retval = TRUE;
 
 	*result = modify_value(key, value1, N_value2, value2.vector_value2_val);
@@ -65,9 +66,11 @@ rpc_modify_value_1_svc(int key, char *value1, int N_value2, vector_value2 value2
 	return retval;
 }
 
+/**
+ * Función que se encarga de llamar a la implementación de delete_key()
+*/
 bool_t
-rpc_delete_key_1_svc(int key, int *result,  struct svc_req *rqstp)
-{
+rpc_delete_key_1_svc(int key, int* result, struct svc_req* rqstp) {
 	bool_t retval = TRUE;
 
 	*result = delete_key(key);
@@ -75,9 +78,12 @@ rpc_delete_key_1_svc(int key, int *result,  struct svc_req *rqstp)
 	return retval;
 }
 
+
+/**
+ * Función que se encarga de llamar a la implementación de exist()
+*/
 bool_t
-rpc_exist_1_svc(int key, int *result,  struct svc_req *rqstp)
-{
+rpc_exist_1_svc(int key, int* result, struct svc_req* rqstp) {
 	bool_t retval = TRUE;
 
 	*result = exist(key);
@@ -86,9 +92,8 @@ rpc_exist_1_svc(int key, int *result,  struct svc_req *rqstp)
 }
 
 int
-claves_1_freeresult (SVCXPRT *transp, xdrproc_t xdr_result, caddr_t result)
-{
-	xdr_free (xdr_result, result);
+claves_1_freeresult(SVCXPRT* transp, xdrproc_t xdr_result, caddr_t result) {
+	xdr_free(xdr_result, result);
 
 	/*
 	 * Insert additional freeing code here, if needed
