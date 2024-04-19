@@ -22,7 +22,6 @@
 bool_t
 rpc_init_1_svc(int* result, struct svc_req* rqstp) {
 	bool_t retval = TRUE;
-	printf("INIT\n");
 	*result = init();
 
 	return retval;
